@@ -95,15 +95,19 @@ while True:
 
     elif int(inputs[0]) == 3:
         initialDate = input("\nIngrese la fecha (YYYY-MM-DD): ")
-        print("\nBuscando accidentes de " + initialDate + "....")
-        severity1 = int(controller.getAccidentsBySeverity(cont, initialDate, '1'))
-        severity2 = int(controller.getAccidentsBySeverity(cont, initialDate, '2'))
-        severity3 = int(controller.getAccidentsBySeverity(cont, initialDate, '3'))
-        severity4 = int(controller.getAccidentsBySeverity(cont, initialDate, '4'))
-        severities = severity1+severity2+severity3+severity4
-        print("\nEn " + initialDate + " ocurrieron " + str(severities) + " accidentes." + 
-            " Sus severidades fueron: \n\nSeveridad 1: " + str(severity1) + "\nSeveridad 2: " + str(severity2) +
-            "\nSeveridad 3: " + str(severity3) + "\nSeveridad 4: " + str(severity4))
+        t1_start = process_time()
+        severityTuple = controller.getAccidentsBySeverity(cont,initialDate)
+        t1_stop= process_time()
+        if severityTuple == "fecha":
+            print('\nPor favor ingrese una fecha que se encuentre en el archivo.')
+        elif severityTuple == "formato":
+            print("\nPor favor ingrese un formato de fecha válido.")
+        else:
+            print("\nEn " + initialDate + " ocurrieron " + str(severityTuple[0]) + " accidentes." + 
+                " Sus severidades fueron: \n\nSeveridad 1: " + str(severityTuple[1]) + "\nSeveridad 2: " + str(severityTuple[2]) +
+                "\nSeveridad 3: " + str(severityTuple[3]) + "\nSeveridad 4: " + str(severityTuple[4]))        
+        time = t1_stop - t1_start
+        print("\nTiempo de ejecución: " + str(time))
 
     elif int(inputs[0]) == 4:
         finalDate = input("\nIngrese la fecha (YYYY-MM-DD): ")
