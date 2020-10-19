@@ -57,11 +57,16 @@ accidentsfile = small
 def printMenu():
     print("\n")
     print("*******************************************")
-    print("Bienvenido")
+    print("Bienvenido\n")
     print("1- Inicializar Analizador")
     print("2- Cargar información de accidentes")
-    print("3- Conocer los accidentes en una fecha (REQ 1)")
-    print("4- Conocer los accidentes anteriores a una fecha (REQ 2)")
+    print("3- Conocer los accidentes en una fecha (REQ1)")
+    print("4- Conocer los accidentes anteriores a una fecha (REQ2)")
+    print("5- Conocer los accidentes en un rango de fechas (REQ3)")
+    print("6- Conocer el estado con más accidentes (REQ4)")
+    print("7- Conocer los accidentes por rango de horas (REQ5)")
+    print("8- Conocer la zona geográfica más accidentada (REQ6)")
+    print("9- Usar el conjunto completo de datos (REQ7)")
     print("0- Salir")
     print("*******************************************")
 
@@ -122,6 +127,114 @@ while True:
         time = t1_stop - t1_start
         print("\nTiempo de ejecución: " + str(time))
 
+   elif int(inputs[0]) == 5:
+        
+        centiY, centiM, centiD = True, True, True
+
+        while centiY:
+            yyyy1 = int(input('Ingresa el anio inicial\n>'))
+            yyyy2 = int(input('Ingresa el anio final\n>'))
+            yyyy2, yyyy1 = max(yyyy1, yyyy2), min(yyyy1, yyyy2)
+
+            if (999 < yyyy1 < 2999 and 999 < yyyy2 < 2999):
+                centiY = False
+            else:
+                print('Ingrese anios validos')
+
+        while centiM:
+            mm1 = int(input('Ingresa el mes inicial\n>'))
+            mm2 = int(input('Ingresa el mes final\n>'))
+
+            if yyyy1 == yyyy2:
+                mm2,mm1 = max(mm1,mm2), min(mm1,mm2)
+
+            if (0 < mm1 < 13 and 0 < mm2 < 13):
+                centiM = False
+            else:
+                print('Ingrese meses validos')
+
+        while centiD:
+            dd1 = int(input('Ingresa el dia inicial\n>'))
+            dd2 = int(input('Ingresa el dia final.\n>'))
+
+            if (yyyy1 == yyyy2) and (mm1 == mm2):
+                dd2, dd1 = max(dd1,dd2), min(dd2,dd1)
+
+            if (0 < dd1 < 32 and 0 < dd2 < 32):
+                centiD = False
+            else:
+                print('Ingresa un dias validos')
+        
+        dateMin = f'{yyyy1}-{mm1}-{dd1}'
+        dateMax = f'{yyyy2}-{mm2}-{dd2}'
+        print(f"\nBuscando accidentes en el rango de fechas <{dateMin}> - <{dateMax}>...")
+        controller.getAccidentsByDates(cont, dateMin, dateMax)
+        total, sev = controller.getAccidentsByDates(cont, dateMin, dateMax)
+        print(f'La cantidad de accidentes entre <{dateMin}> y <{dateMax}> es: {total} y la categoria mas recurrente es: {sev}')
+
+    elif int(inputs[0]) == 6:
+        print("\nBuscando el estado con más accidentes: ")
+
+    elif int(inputs[0]) == 7:
+        
+        centiH, centiM, cetinD = True, True, True
+
+        while centiH:
+            hh1 = int(input('Ingrese la hora inicial\n>'))
+            hh2 = int(input('Ingrese la hora final\n>'))
+
+            hh2, hh1 = max(hh1, hh2), min(hh1, hh2)
+
+            if (-1 < hh1 < 24) and (-1 < hh2 < 24):
+                centiH = False
+            else:
+                print('Ingrese horas validas\n')
+        
+        while centiM:
+            mm1 = int(input('Ingrese el minuto inicial\n>'))
+            mm2 = int(input('Ingrese el minuto final\n>'))
+
+            if (0 <= mm1 < 60) and (0 <= mm2 < 60):
+                centiM = False
+
+                if hh1 == hh2:
+                    mm2,mm1 = max(mm1,mm2),min(mm1,mm2)
+
+                if mm1 > 30:
+                    mm1 = 0
+                    hh1 += 1
+                elif 0 < mm1 < 30:
+                    mm1 = 30
+                
+                if mm2 > 30:
+                    mm2 = 0
+                    hh2 += 1
+                elif 0 < mm2 < 30:
+                    mm2 = 30
+            else:
+                print('Ingrese minutos validos\n')
+        
+        initialTime = f'{hh1}:{mm1}'
+        finalTime = f'{hh2}:{mm2}'
+
+        print(f'\nConociendo accidentes en el rango de horas <{initialTime}>-<{finalTime}>...')
+        rta, total = controller.getAccidentsByHours(cont, initialTime, finalTime)
+        print(f'Hay {total} accidentes en el rango de horas <{initialTime}>-<{finalTime}>:\nCategoria 1: {lt.getElement(rta, 1)[0]} (Aportando un {lt.getElement(rta, 1)[1]} %)\nCategoria 2: {lt.getElement(rta, 2)[0]} (Aportando un {lt.getElement(rta, 2)[1]} %)\nCategoria 3: {lt.getElement(rta, 3)[0]} (Aportando un {lt.getElement(rta, 3)[1]} %)\nCategoria 4: {lt.getElement(rta, 4)[1]} (Aportando un {lt.getElement(rta, 4)[1]} %)')
+    
+    elif int(inputs[0]) == 8:
+        print("\nZona geografica más accidentada: ")
+
+    elif int(inputs[0]) == 9:
+        print("\n------======<Precaucion>======------\nSe recomienda Cerrar toda pestaña para evitar que su computador explote\nCargando información de accidentes (archivo grande)....")
+
+        controller.loadData(cont, accidentsfileBIG)
+        print('\nAccidentes cargados: ' + str(controller.accidentsSize(cont)))
+        print('Altura del arbol: ' + str(controller.indexHeight(cont)))
+        print('Elementos en el arbol: ' + str(controller.indexSize(cont)))
+        print('Menor Llave: ' + str(controller.minKey(cont)))
+        print('Mayor Llave: ' + str(controller.maxKey(cont)))
+    
     else:
         sys.exit(0)
+      
 sys.exit(0)
