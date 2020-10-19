@@ -129,5 +129,28 @@ def getAccidentsBeforeDate(analyzer, finalDate):
             return model.getAccidentsBeforeDate(analyzer,finalDate.date())
     except:
         return "formato"
+     
+     
+def getAccidentsByDates(analyzer, initialDate, finalDate):
+    """
+    Retorna el total de accidentes en un rango de fechas
+    """
+    initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
+    return model.getAccidentsByRange(analyzer, initialDate.date(), finalDate.date())
+   
+
+def getAccidentsByHours(analyzer, initialHour, finalHour):
+    """
+    Retorna el total de accidentes en un rango de horas
+    """
+    initialHour = datetime.datetime.strptime(initialHour, '%H:%M')
+    finalHour = datetime.datetime.strptime(finalHour, '%H:%M')
+    return model.getAccidentsByHours(analyzer, initialHour, finalHour)
+
+
+def getAccidentsByDate(analyzer, accidentDate):
+    accidentDate = datetime.datetime.strptime(accidentDate, '%Y-%m-%d')
+    return model.getAccidentsByDate(analyzer, accidentDate.date())     
 
 
