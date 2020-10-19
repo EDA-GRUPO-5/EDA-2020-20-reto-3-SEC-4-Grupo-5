@@ -121,11 +121,13 @@ def getAccidentsBySeverity(analyzer, initialDate):
 
 
 def getAccidentsBeforeDate(analyzer, finalDate):
-
-    finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
-    if om.contains(analyzer['dateIndex'], finalDate.date()) == False:
-        return "fecha"
-    else:    
-        return model.getAccidentsBeforeDate(analyzer,finalDate.date())
+    try:
+        finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
+        if om.contains(analyzer['dateIndex'], finalDate.date()) == False:
+            return "fecha"
+        else:    
+            return model.getAccidentsBeforeDate(analyzer,finalDate.date())
+    except:
+        return "formato"
 
 
