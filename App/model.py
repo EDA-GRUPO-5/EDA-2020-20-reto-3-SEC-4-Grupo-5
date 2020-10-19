@@ -223,6 +223,105 @@ def getAccidentsBeforeDate(analyzer, finalDate):
         return (total,mostAccidentsDate['date'])
 
 
+def getAccidentsByRange(analyzer, initialDate, finalDate):
+    """
+    Retorna el numero de accidentes en un rango de fechas.
+    """
+    lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
+    
+    counter1, counter2, counter3, counter4 = 0, 0, 0, 0
+
+    for i in range(lt.size(lst)):
+        keyDate = lt.getElement(lst, i)
+        counter1 += int(getAccidentsBySeverity(analyzer, keyDate, '1'))
+        counter2 += int(getAccidentsBySeverity(analyzer, keyDate, '2'))
+        counter3 += int(getAccidentsBySeverity(analyzer, keyDate, '3'))
+        counter4 += int(getAccidentsBySeverity(analyzer, keyDate, '4'))
+    
+    total = counter1 + counter2 + counter3 + counter4
+
+    mostCommon = counter1
+    k = '1'
+    if counter2 > mostCommon:
+        mostCommon = counter2
+        k = '2'
+
+    if counter3 > mostCommon:
+        mostCommon = counter3
+        k = '3'
+
+    if counter4 > mostCommon:
+        mostCommon = counter4
+        k = '4'
+
+    return total, k
+
+
+def getAccidentsByHours(analyzer, initialHour, finalHour):
+    """
+    Retorna los accidentes ocurridos en un rango de horas(aproximadas)
+    """
+    lst = om.values(analyzer['dateIndex'], om.minKey(analyzer['dateIndex']), om.maxKey(analyzer['dateIndex']))
+
+    rta = lt.newList()
+
+    for i in range(lt.size(lst)):
+        k = lt.getElement(lst, i)
+        originalMap = me.getValue(om.get(analyzer['dateIndex'], k))['severityIndex']
+        d1 = m.get(originalMap, '1')
+        d2 = m.get(originalMap, '2')
+        d3 = m.get(originalMap, '3')
+        d4 = m.get(originalMap, '4')
+
+
+        counter1 = 0
+        if d1 is not None:
+            l1 = me.getValue(d1)['lstseverities']
+            for j1 in range(lt.size(l1)):
+                if (initialHour < datetime.datetime.strptime(lt.getElement(l1, j1)['Start_Time'][-8:-3], '%H:%M') < finalHour):
+                    counter1 += 1
+        
+        
+        counter2 = 0
+        if d2 is not None:
+            l2 = me.getValue(d2)['lstseverities']
+            for j2 in range(lt.size(l2)):
+                if (initialHour < datetime.datetime.strptime(lt.getElement(l2, j2)['Start_Time'][-8:-3], '%H:%M') < finalHour):
+                    counter2 += 1
+
+
+        counter3 = 0
+        if d3 is not None:
+            l3 = me.getValue(d3)['lstseverities']
+            for j3 in range(lt.size(l3)):
+                if (initialHour < datetime.datetime.strptime(lt.getElement(l3, j3)['Start_Time'][-8:-3], '%H:%M') < finalHour):
+                    counter3 += 1
+
+        counter4 = 0
+        if d4 is not None:
+            l4 = me.getValue(d4)['lstseverities']
+            for j4 in range(lt.size(l4)):
+                if (initialHour < datetime.datetime.strptime(lt.getElement(l4, j4)['Start_Time'][-8:-3], '%H:%M') < finalHour):
+                    counter4 += 1
+        
+        t = counter1 + counter2 + counter3 + counter4
+
+        percent1, percent2, percent3, percent4 = 0.0, 0.0, 0.0, 0.0
+        if t != 0:
+            percent1 = round((counter1*100/t), 2)
+            percent2 = round((counter2*100/t), 2)
+            percent3 = round((counter3*100/t), 2)
+            percent4 = round((counter4*100/t), 2)
+
+        
+        lt.addLast(rta, (counter1, percent1))
+        lt.addLast(rta, (counter2, percent2))
+        lt.addLast(rta, (counter3, percent3))
+        lt.addLast(rta, (counter4, percent4))
+
+        return rta, t       
+   
+   
 # ==============================
 # Funciones de Comparacion
 # ==============================
