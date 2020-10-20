@@ -229,6 +229,7 @@ def getAccidentsByRange(analyzer, initialDate, finalDate):
     """
     lst = om.keys(analyzer['dateIndex'], initialDate, finalDate)
     
+    #Iniciar los datos como 0, solucionando el caso que no hayan accidentes
     counter1, counter2, counter3, counter4 = 0, 0, 0, 0
 
     for i in range(lt.size(lst)):
@@ -240,8 +241,11 @@ def getAccidentsByRange(analyzer, initialDate, finalDate):
     
     total = counter1 + counter2 + counter3 + counter4
 
+    #Si el la suma de los accidentes da 0 (Si no hay accidentes en el rango de fechas) eso significa que no hay maximo
     if total == 0:
         k = 'Ninguno'
+
+    #Calcular maximo
     else:
         mostCommon = counter1
         k = '1'
@@ -271,12 +275,13 @@ def getAccidentsByHours(analyzer, initialHour, finalHour):
     for i in range(lt.size(lst)):
         k = lt.getElement(lst, i)
         originalMap = me.getValue(om.get(analyzer['dateIndex'], k))['severityIndex']
+        #Obtener la lista de accidentes por severidad
         d1 = m.get(originalMap, '1')
         d2 = m.get(originalMap, '2')
         d3 = m.get(originalMap, '3')
         d4 = m.get(originalMap, '4')
 
-
+        #Contar cuantos accidentes ocurren en el rango de horas por severidad 
         counter1 = 0
         if d1 is not None:
             l1 = me.getValue(d1)['lstseverities']
@@ -310,13 +315,14 @@ def getAccidentsByHours(analyzer, initialHour, finalHour):
         t = counter1 + counter2 + counter3 + counter4
 
         percent1, percent2, percent3, percent4 = 0.0, 0.0, 0.0, 0.0
+        #Evitar division entre 0
         if t != 0:
             percent1 = round((counter1*100/t), 2)
             percent2 = round((counter2*100/t), 2)
             percent3 = round((counter3*100/t), 2)
             percent4 = round((counter4*100/t), 2)
 
-        
+        #Añade una tupla con la cantidad y el porcentaje que aporta al total
         lt.addLast(rta, (counter1, percent1))
         lt.addLast(rta, (counter2, percent2))
         lt.addLast(rta, (counter3, percent3))
