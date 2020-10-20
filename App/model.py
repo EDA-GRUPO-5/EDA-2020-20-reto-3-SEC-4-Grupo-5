@@ -184,7 +184,7 @@ def getAccidentsBySeverity(analyzer, initialDate, severity):
         if numseverities is not None:
             return m.size(me.getValue(numseverities)['lstseverities'])
         return 0
-
+       
 
 def getAccidentsBeforeDate(analyzer, finalDate):
     initialDate = str(minKey(analyzer))
@@ -212,13 +212,13 @@ def getAccidentsBeforeDate(analyzer, finalDate):
             severity2Date = int(getAccidentsBySeverity(analyzer, keyDate, '2'))
             severity3Date = int(getAccidentsBySeverity(analyzer, keyDate, '3'))
             severity4Date = int(getAccidentsBySeverity(analyzer, keyDate, '4'))
-            totalDate = severity1Date+severity2Date+severity3Date+severity4Date
+            totalDate = severity1Date + severity2Date + severity3Date + severity4Date
 
             if totalDate >= mostAccidentsDate['total']:
                 mostAccidentsDate['date'] = keyDate
                 mostAccidentsDate['total'] = totalDate
         
-        total = severity1+severity2+severity3+severity4 
+        total = severity1 + severity2 + severity3 + severity4 
             
         return (total,mostAccidentsDate['date'])
 
