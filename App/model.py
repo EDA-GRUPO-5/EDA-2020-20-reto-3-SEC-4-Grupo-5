@@ -227,7 +227,7 @@ def getAccidentsByRange(analyzer, initialDate, finalDate):
     """
     Retorna el numero de accidentes en un rango de fechas.
     """
-    lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
+    lst = om.keys(analyzer['dateIndex'], initialDate, finalDate)
     
     counter1, counter2, counter3, counter4 = 0, 0, 0, 0
 
@@ -261,7 +261,7 @@ def getAccidentsByHours(analyzer, initialHour, finalHour):
     """
     Retorna los accidentes ocurridos en un rango de horas(aproximadas)
     """
-    lst = om.values(analyzer['dateIndex'], om.minKey(analyzer['dateIndex']), om.maxKey(analyzer['dateIndex']))
+    lst = om.keys(analyzer['dateIndex'], om.minKey(analyzer['dateIndex']), om.maxKey(analyzer['dateIndex']))
 
     rta = lt.newList()
 
