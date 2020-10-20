@@ -114,7 +114,7 @@ def getAccidentsBySeverity(analyzer, initialDate):
             severity2 = int(model.getAccidentsBySeverity(analyzer, initialDate.date(), '2'))
             severity3 = int(model.getAccidentsBySeverity(analyzer, initialDate.date(), '3'))
             severity4 = int(model.getAccidentsBySeverity(analyzer, initialDate.date(), '4'))
-            total = severity1 + severity2 +severity3 +severity4
+            total = severity1 + severity2 + severity3 +severity4
             return (total, severity1, severity2, severity3, severity4)
     except:
         return "formato"
