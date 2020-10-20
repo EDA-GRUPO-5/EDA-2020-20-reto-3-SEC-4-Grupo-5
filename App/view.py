@@ -170,7 +170,17 @@ while True:
         print(f'La cantidad de accidentes entre <{dateMin}> y <{dateMax}> es: {total} y la categoria mas recurrente es: {sev}')
 
     elif int(inputs[0]) == 6:
-        print("\nBuscando el estado con más accidentes: ")
+        initialDate = input("\nIngrese la fecha inicial (YYYY-MM-DD): ")
+        finalDate = input("\nIngrese la fecha final (YYYY-MM-DD): ")
+        t1_start = process_time()
+        stateTuple = controller.getAccidentsByState(cont,initialDate, finalDate)
+        t1_stop= process_time()
+        if stateTuple == "fecha":
+            print('\nPor favor ingrese una fecha que se encuentre en el archivo.')
+        elif stateTuple == "formato":
+            print("\nPor favor ingrese un formato de fecha válido.")
+        else:
+            print("\nEstado: " + str(stateTuple[0]) + "\nFecha: " + str(stateTuple[1]) + "\nTiempo de ejecución: " + str(t1_stop - t1_start))
 
     elif int(inputs[0]) == 7:
         
@@ -219,7 +229,7 @@ while True:
         print(f'Hay {total} accidentes en el rango de horas <{initialTime}>-<{finalTime}>:\nCategoria 1: {lt.getElement(rta, 1)[0]} (Aportando un {lt.getElement(rta, 1)[1]} %)\nCategoria 2: {lt.getElement(rta, 2)[0]} (Aportando un {lt.getElement(rta, 2)[1]} %)\nCategoria 3: {lt.getElement(rta, 3)[0]} (Aportando un {lt.getElement(rta, 3)[1]} %)\nCategoria 4: {lt.getElement(rta, 4)[1]} (Aportando un {lt.getElement(rta, 4)[1]} %)')
         
     elif int(inputs[0]) == 8:
-        print("\nZona geografica más accidentada: ")
+        print("\nZona geografica más accidentada...")
 
     elif int(inputs[0]) == 9:
         print("\n------======<Precaucion>======------\nSe recomienda Cerrar toda pestaña para evitar que su computador explote\nCargando información de accidentes (archivo grande)....")
