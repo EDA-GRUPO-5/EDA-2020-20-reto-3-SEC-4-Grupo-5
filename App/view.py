@@ -180,7 +180,8 @@ while True:
         elif stateTuple == "formato":
             print("\nPor favor ingrese un formato de fecha válido.")
         else:
-            print("\nEstado: " + str(stateTuple[0]) + "\nFecha: " + str(stateTuple[1]) + "\nTiempo de ejecución: " + str(t1_stop - t1_start))
+            print("\nEstado: " + str(stateTuple[0]) + "\nFecha: " + str(stateTuple[1]))
+        print ("\nTiempo de ejecución: " + str(t1_stop - t1_start))
 
     elif int(inputs[0]) == 7:
         
