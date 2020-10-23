@@ -170,18 +170,7 @@ while True:
         print(f'La cantidad de accidentes entre <{dateMin}> y <{dateMax}> es: {total} y la categoria mas recurrente es: {sev}')
 
     elif int(inputs[0]) == 6:
-        initialDate = input("\nIngrese la fecha inicial (YYYY-MM-DD): ")
-        finalDate = input("\nIngrese la fecha final (YYYY-MM-DD): ")
-        t1_start = process_time()
-        stateTuple = controller.getAccidentsByState(cont,initialDate, finalDate)
-        t1_stop= process_time()
-        if stateTuple == "fecha":
-            print('\nPor favor ingrese una fecha que se encuentre en el archivo.')
-        elif stateTuple == "formato":
-            print("\nPor favor ingrese un formato de fecha válido.")
-        else:
-            print("\nEstado: " + str(stateTuple[0]) + "\nFecha: " + str(stateTuple[1]))
-        print ("\nTiempo de ejecución: " + str(t1_stop - t1_start))
+        pass
 
     elif int(inputs[0]) == 7:
         
