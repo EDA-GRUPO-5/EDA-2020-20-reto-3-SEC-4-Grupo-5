@@ -53,7 +53,7 @@ def updateDateIndex(map, accident):
         datentry = newDataEntry(accident)
         om.put(map, accidentdate.date(), datentry)
     else:
-        datentry = me.getKey(entry)
+        datentry = me.getValue(entry)
     addDateIndex(datentry, accident)
     return map
 
@@ -73,7 +73,7 @@ def addDateIndex(datentry, accident):
         lt.addLast(entry['lststate'], accident)
         m.put(stateIndex,accident['State'],entry)
     else:
-        entry = me.getKey(offentry)
+        entry = me.getValue(offentry)
         lt.addLast(entry['lststate'],accident)
     return datentry
 
@@ -131,12 +131,15 @@ def maxKey(analyzer):
 
 def getAccidentsByState(analyzer, initialDate, finalDate):
     accidentdate = om.get(analyzer['dateIndex'], initialDate)
+    accidentdate = om.get(analyzer['dateIndex'], finalDate)
+    #contador = 0
     if accidentdate['key'] is not None:
-        statemap = me.getKey(accidentdate)['stateIndex']
-        estado = m.get(statemap, finalDate)
+        statemap = me.getValue(accidentdate)['stateIndex']
+        estado = m.get(statemap, ['State'])
         if estado is not None:
-            return me.getKey(num['lststate']))
-        return estado
+            #contador += 1
+            return me.getValue(estado['lststate'])
+    return estado
 
 # ==============================
 # Funciones de Comparacion
