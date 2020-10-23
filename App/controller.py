@@ -139,19 +139,6 @@ def getAccidentsByDates(analyzer, initialDate, finalDate):
     finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
     return model.getAccidentsByRange(analyzer, initialDate.date(), finalDate.date())
 
-def getAccidentsByState(analyzer, initialDate, finalDate):
-    try:
-        initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
-        finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
-        if om.contains(analyzer['dateIndex'], initialDate.date()) == False:
-            return "fecha"
-        if om.contains(analyzer['dateIndex'], finalDate.date()) == False:
-            return "fecha"
-        else:
-            state = model.getAccidentsByState(analyzer, initialDate.date(), finalDate.date())
-            return state
-    except:
-        return "formato"  
 
 def getAccidentsByHours(analyzer, initialHour, finalHour):
     """
