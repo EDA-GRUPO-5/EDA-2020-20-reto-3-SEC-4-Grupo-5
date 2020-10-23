@@ -235,7 +235,7 @@ while True:
     elif int(inputs[0]) == 9:
         print("\n------======<Precaucion>======------\nSe recomienda Cerrar toda pestaña para evitar que su computador explote\nCargando información de accidentes (archivo grande)....")
 
-        controller.loadData(cont, accidentsfileBIG)
+        controller.loadData(cont, large)
         print('\nAccidentes cargados: ' + str(controller.accidentsSize(cont)))
         print('Altura del arbol: ' + str(controller.indexHeight(cont)))
         print('Elementos en el arbol: ' + str(controller.indexSize(cont)))
