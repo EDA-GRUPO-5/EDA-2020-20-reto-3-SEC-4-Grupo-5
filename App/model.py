@@ -243,23 +243,21 @@ def getAccidentsByRange(analyzer, initialDate, finalDate):
 
     #Si el la suma de los accidentes da 0 (Si no hay accidentes en el rango de fechas) eso significa que no hay maximo
     if total == 0:
-        k = 'Ninguno'
+        return (total, "Ninguno")
+        
+    mostCommon = counter1
+    k = '1'
+    if counter2 > mostCommon:
+        mostCommon = counter2
+        k = '2'
 
-    #Calcular maximo
-    else:
-        mostCommon = counter1
-        k = '1'
-        if counter2 > mostCommon:
-            mostCommon = counter2
-            k = '2'
+    if counter3 > mostCommon:
+        mostCommon = counter3
+        k = '3'
 
-        if counter3 > mostCommon:
-            mostCommon = counter3
-            k = '3'
-
-        if counter4 > mostCommon:
-            mostCommon = counter4
-            k = '4'
+    if counter4 > mostCommon:
+        mostCommon = counter4
+        k = '4'
 
     return total, k
 
